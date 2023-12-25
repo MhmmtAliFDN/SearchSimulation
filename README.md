@@ -1,4 +1,4 @@
-# Çanakkale Üniversitesi Bilgisayar Mühendisliği 4. Sınıf Bilgi Erişim Sistemleri Örnek Projesi
+# Çanakkale Onsekiz Mart Üniversitesi Bilgisayar Mühendisliği 4. Sınıf Bilgi Erişim Sistemleri Örnek Projesi
 
 
 ## Geliştirme Yönlendirmeleri
