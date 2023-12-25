@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 import json
 
@@ -11,11 +12,25 @@ collection = db["news"]
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:5173",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # GET metodunu işleyen basit bir endpoint
 @app.get("/search/{search_text}")
 def read_root(search_text):
     #{"GAZETE":"Diken"}
-    result = collection.find({"GAZETE":f"{search_text}"})
+    result = collection.search_text({"GAZETE":f"{search_text}"})
 
     result_list = []
     for news in result:
