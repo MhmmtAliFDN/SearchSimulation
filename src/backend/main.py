@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pymongo import MongoClient
+from pymongo import MongoClient, TEXT
+from pymongo.operations import IndexModel
 import json
 
 
@@ -9,6 +10,23 @@ client = MongoClient("mongodb://myuser:mymongodbUser01!@my-mongodb:27017/")
 db = client["search_db"]
 collection = db["news"]
 
+'''
+db.news.createIndex({
+    BASLIK: 'text',
+    HABERMETNI: 'text',
+  },
+  {
+    default_language: 'turkish',
+    weights: {
+      BASLIK: 2,
+      HABERMETNI: 1
+    },
+    name: 'custom_text_index',
+    background: true,
+    analyzer: 'lucene.whitespace',
+    search_analyzer: 'lucene.standard'
+  })
+'''
 
 app = FastAPI()
 
@@ -29,8 +47,8 @@ app.add_middleware(
 # GET metodunu işleyen basit bir endpoint
 @app.get("/search/{search_text}")
 def read_root(search_text):
-    #{"GAZETE":"Diken"}
-    result = collection.search_text({"GAZETE":f"{search_text}"})
+
+    result = collection.find({"$text":{ "$search":f"{search_text}"}})
 
     result_list = []
     for news in result:
