@@ -3,6 +3,14 @@
 
 ## Geliştirme Yönlendirmeleri
 
+#####Ortam Gereksinimleri
+* Docker Desktop
+* Node.Js
+* MongoDBCompass ile mongodb'ye bağlanılır(adres: user: password:)
+* Compass üstünden search_db isminde bir db oluşturulur ve news isimli collection yaratılır.
+* news isimli collection'a girilir ve jsn file import ile haberler.json dosyası yüklenir(https://bit.ly/comu_samples).
+
+
 #### Client uygulaması'nın development süreci için (Client Application - Vue);
 
 ```bash
