@@ -3,7 +3,7 @@
 
 ## Geliştirme Yönlendirmeleri
 
-#####Ortam Gereksinimleri
+##### Ortam Gereksinimleri
 * Docker Desktop
 * Node.Js
 * MongoDBCompass ile mongodb'ye bağlanılır(adres: user: password:)
