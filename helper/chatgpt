@@ -1,6 +1,0 @@
-Sen docker container'lar konusunda uzman birisin. aynı zamanda mongodb uzmanısın. Bir projede veritabanı olarak mongodb'yi docker compose ile dockerdesktop üstünde ayağa kaldırmakla ilgili bir görev bulunuyor. Bu konuda senin yaml oluturma konusunda desteğene ihtiyacımız olacak.
-python ile çok basit birer adet post ve get methodlarının olduğu fastapi örneği yazar mısın.
-python virtual environment oluşturmak için gerekli komutu yazarmısn
-python methodumdan mongodb ye text search komutu göndermek istiyorum. bunun için gerekli python kodunu verir misin
-mongodb ile aldığım sonuçları fastapi ile return etmek istiyorum
-base image'ı python olan bir dockerfile yapmak istiyorum. bu dockerfile fastapi'yi 8080 portundan ayağa kaldırsın, ve bu docker imageı kullanabileceğim dockercompose scriptinide oluştururmusun

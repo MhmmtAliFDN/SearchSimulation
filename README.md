@@ -1,71 +1,40 @@
-# Çanakkale Onsekiz Mart Üniversitesi Bilgisayar Mühendisliği 4. Sınıf Bilgi Erişim Sistemleri Örnek Projesi
+# Geliştirme Yönlendirmeleri
 
-
-## Geliştirme Yönlendirmeleri
-
-##### Ortam Gereksinimleri
+### Ortam Gereksinimleri
+* VSCode IDE
 * Docker Desktop
-* Node.Js
-* MongoDBCompass ile mongodb'ye bağlanılır(adres: user: password:)
-* Compass üstünden search_db isminde bir db oluşturulur ve news isimli collection yaratılır.
-* news isimli collection'a girilir ve jsn file import ile haberler.json dosyası yüklenir(https://bit.ly/comu_samples).
+* VSCode - Docker Extension
+* VSCode - MongoDB for VS Code Extension
+* VSCode - Python & Vue - Offical Extensions (Opsiyonel)
 
-
-#### Client uygulaması'nın development süreci için (Client Application - Vue);
-
+### Uygulamanın Ayağa Kaldırılması(Docker Desktop)
 ```bash
-cd .\src\client\
-
-#Peketlerin yüklenmesi
-npm install
-
-#Uygulamanın development modda çalıştırılması
-npm run dev
-```
-
-#### Backend uygulaması'nın development süreci için(Backend Application - Python);
-```bash
+# SRC Dizinine Git
 cd .\src\
-#python virtual environment oluşturulacak
-python -m venv comu
-.\comu\Scripts\activate
 
-#proje içine girilerek gerekli python paketleri install edilmeli
-cd .\backend\
-pip install -r requirements.txt
+# Derleme
+docker compose -f docker-compose.yml build
+
+# Çalıştırılması
+docker compose -f docker-compose.yml up
+
+# MongoDB Connection String
+mongodb://myuser:mymongodbUser01!@localhost:27017/
+
+# MongoDB Database Oluşturma
+cd .\src\database
+
+Execute playground-1.mongodb.js
 ```
 
-```bash
-#uygulamanın local ortamda ayağa kaldırılması
-uvicorn main:app --host 0.0.0.0 --port 8080
-```
+### Kendi Verilerinizi Koymak İstiyorsanız
+* Yukarıdaki 'MongoDB Database Oluşturma' aşamasına kadar aynı şekilde yap.
+* playground-1.mongodb.js dosyasındaki `const database & const collection` isimlerini değiştir.
+* `db.<senin_collection_adın.createIndex` yapmayı unutma.
+* Index'i kendi verilerine göre yapılandır. Ağırlıkları ve isimleri değiştir.
+* `db.<senin_collection_adın.insertMany` kısmına kendi json verilerini yaz.
+* Çalıştır. Eğer MongoDB Extension yüklü ise sağ üstte içi dolu Play butonu kısayolunu kullanabilirsin.
 
-```bash
-#api test
-curl http://localhost:8080/samples/testtt
-```
-
-
-
-## Uygulamanın ayağa kaldırılması(Docker Desktop)
-Bu aşamada tüm uygulamalar uçtan uca birileri ile çalışır halede hazır olacaklardır.
-```bash
-cd .\src\
-#Derleme
-docker compose -f dockercompose.yaml build
-
-#Çalıştırılması
-docker compose -f dockercompose.yaml up
-```
-
-Uygulama ayağa kalktığında docker desktop üstünden ayağa kalkan pod'lar running statüye geçecektir.
-
-
-## Notlar
-#### 25.12.2023
-* Derste yapılan client uygulamasının yeri client klasörünün altına taşındı
-* Client uygulaması stil hataları düzeltildi
-
-
-## Ödev
-* MongoDB üstünde full text search için gerekli index oluşturulmalı. Oluşturulacak index Apache Lucene analyzer'larından olmalı. Token ve Weight düzenlemeleri yüklenen örneğe göre redesign edilmeli.
+#### Ek Not
+* Tüm bunları VSCode dışında farklı IDE'ler ve MongoDB Compass, Docker Desktop gibi programların arayüzlerini kullanarak da yapabilirsin.
+* Hatta Docker Desktop kullanmadan da Vue & Python'ın paketlerini kurup da çalıştırabilirsin.

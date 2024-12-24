@@ -4,30 +4,6 @@ from pymongo import MongoClient, TEXT
 from pymongo.operations import IndexModel
 import json
 
-
-# MongoDB bağlantısı
-client = MongoClient("mongodb://myuser:mymongodbUser01!@my-mongodb:27017/")
-db = client["search_db"]
-collection = db["news"]
-
-'''
-db.news.createIndex({
-    BASLIK: 'text',
-    HABERMETNI: 'text',
-  },
-  {
-    default_language: 'turkish',
-    weights: {
-      BASLIK: 2,
-      HABERMETNI: 1
-    },
-    name: 'custom_text_index',
-    background: true,
-    analyzer: 'lucene.whitespace',
-    search_analyzer: 'lucene.standard'
-  })
-'''
-
 app = FastAPI()
 
 origins = [
@@ -44,6 +20,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# MongoDB bağlantısı
+client = MongoClient("mongodb://myuser:mymongodbUser01!@my-mongodb:27017/")
+db = client["search_db"]
+collection = db["products"]
+
 # GET metodunu işleyen basit bir endpoint
 @app.get("/search/{search_text}")
 def read_root(search_text):
@@ -58,10 +39,7 @@ def read_root(search_text):
     return result_list
 
 # POST metodunu işleyen basit bir endpoint
-#@app.post("/search")
-# def create_item(body:dict):
-#     print(body)
-#     return {"message": body["search_text"]}
-
-
-
+@app.post("/search")
+def create_item(body:dict):
+    print(body)
+    return {"message": body["search_text"]}

@@ -14,8 +14,8 @@
 
             <ul v-if="searchResults.length">
                 <li v-for="(result, index) in searchResults" :key="index">
-                    <a :href="result.URL" target="_blank">{{ result.BASLIK }}</a>
-                    <br />{{ result.HABERMETNI }}                    
+                    <a :href="result.product_link" target="_blank">{{ result.product_name }}</a>
+                    <br />{{ result.about_product }}                    
                 </li>
             </ul>
         </div>
