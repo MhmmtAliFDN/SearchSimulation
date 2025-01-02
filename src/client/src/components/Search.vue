@@ -1,25 +1,45 @@
 <template>
     <div class="search">
         <div class="center">
-        <div style="margin: 0 auto;">
-            <div style="float: left; width:80%;">
-                <input v-model="searchQuery" @keyup.enter="search" placeholder="Search..." />
-
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input v-model="searchQuery" @keyup.enter="search" placeholder="Search..." class="search-input" />
+                </div>
+                <div class="search-button-wrapper">
+                    <button @click="search" class="search-button">Search</button>
+                </div>
             </div>
-            <div style="float: left; width:20%;">
-                <button @click="search">Search</button>
+            <div class="results-container">
+                <ul v-if="searchResults.length" class="results-list">
+                    <li v-for="(result, index) in searchResults" :key="index" class="result-card">
+                        <div class="result-header">
+                            <div class="product-info">
+                                <a :href="result.product_link" target="_blank" class="product-title">
+                                    {{ result.product_name }}
+                                </a>
+                                <div class="product-category">
+                                    Category: {{ result.category.replace(/\|/g, ' > ') }}
+                                </div>
+                            </div>
+                            <div class="price-info">
+                                <div class="discounted-price">{{ result.discounted_price }}</div>
+                                <div class="discount-badge">{{ result.discount_percentage }} off</div>
+                            </div>
+                        </div>
+                        <div class="rating-container">
+                            <div class="rating-wrapper">
+                                <span class="rating-score">{{ result.rating }}</span>
+                                <span class="rating-star">★</span>
+                            </div>
+                            <div class="rating-count">({{ result.rating_count }} ratings)</div>
+                        </div>
+                        <div class="product-description">
+                            {{ result.about_product.split('|').join(' • ') }}
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div style="margin: 0 auto; padding-top: 100px;">
-
-            <ul v-if="searchResults.length">
-                <li v-for="(result, index) in searchResults" :key="index">
-                    <a :href="result.product_link" target="_blank">{{ result.product_name }}</a>
-                    <br />{{ result.about_product }}                    
-                </li>
-            </ul>
-        </div>
-    </div>
     </div>
 </template>
 
@@ -28,7 +48,7 @@ import axios from 'axios';
 
 const baseURL = "http://localhost:8080/search/";
 if (typeof import.meta.env.API_BASE_URL !== 'undefined') {
-  this.baseURL = import.meta.env.API_BASE_URL;
+    this.baseURL = import.meta.env.API_BASE_URL;
 }
 
 export default {
@@ -56,50 +76,200 @@ export default {
 
 <style>
 .search {
-    margin: 200px 0 0 0;
-    text-align: center;
-    display: block;
+    margin: 0;
+    padding: 40px 0;
+    min-height: 100vh;
+    background-color: #f8f9fa;
 }
 
 .center {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
+    margin: auto;
+    width: 90%;
+    max-width: 1200px;
+    padding: 20px;
 }
 
-.search button {
-    font-size: 40px;
+.search-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background: white;
+    padding: 16px;
+}
+
+.search-input-wrapper {
+    flex: 1;
+}
+
+.search-input {
     width: 100%;
-    min-width: 150px;
+    font-size: 18px;
+    padding: 12px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-.search input {
-    font-size: 40px;
+.search-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.search-button-wrapper {
+    width: 120px;
+}
+
+.search-button {
     width: 100%;
+    font-size: 18px;
+    padding: 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-@media (min-width: 2048px) {
-    .search {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-    }
+.search-button:hover {
+    background-color: #2563eb;
 }
 
-li {
-    font-size: 15px;
-    list-style-type: none;
-    text-align: left;
-    margin-bottom: 20px;
+.results-container {
+    margin-top: 20px;
 }
 
-li a{
-    font-weight: bold;
-}
-
-
-ul{
+.results-list {
     margin: 0;
     padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.product-info {
+    flex: 1;
+    margin-right: 24px;
+}
+
+.product-title {
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-decoration: none;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.product-title:hover {
+    color: #3b82f6;
+}
+
+.product-category {
+    font-size: 14px;
+    color: #666;
+}
+
+.price-info {
+    text-align: right;
+    min-width: 100px;
+}
+
+.discounted-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.discount-badge {
+    font-size: 14px;
+    color: #22c55e;
+    font-weight: 500;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.rating-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.rating-score {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.rating-star {
+    color: #fbbf24;
+}
+
+.rating-count {
+    color: #666;
+    font-size: 14px;
+}
+
+.product-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #4b5563;
+}
+
+@media (max-width: 768px) {
+    .center {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .search-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .search-button-wrapper {
+        width: 100%;
+    }
+
+    .result-header {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .price-info {
+        text-align: left;
+    }
+
+    .product-info {
+        margin-right: 0;
+    }
 }
 </style>
