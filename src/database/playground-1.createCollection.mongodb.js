@@ -8,27 +8,6 @@ use(database);
 // Create a new collection.
 db.createCollection(collection);
 
-// Create a new index for the collection.
-db.products.createIndex(
-    {
-        product_name: "text",
-        category: "text",
-        about_product: "text",
-    },
-    {
-        default_language: "turkish",
-        weights: {
-            product_name: 5,         // Aramanın en önemli alanı.
-            category: 3,             // Kategori, doğru sonuçların getirilmesinde önemli.
-            about_product: 2         // Ek bilgi, doğrudan arama eşleşmesi olmadıkça öncelikli değil.
-        },
-        name: "product_text_index",
-        background: true,
-        analyzer: 'lucene.whitespace',
-        search_analyzer: 'lucene.standard'
-    }
-);
-
 // Inserting the data into the products collection
 db.products.insertMany(
     [
